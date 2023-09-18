@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 const ExerciseSearch = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleSearch = () => {
-    // Pass the search query to the parent component (e.g., App)
-    onSearch(searchQuery);
+  const handleSearchChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    // Pass the search query to the parent component (e.g., App) as the user types
+    onSearch(query);
   };
 
   return (
@@ -15,14 +17,8 @@ const ExerciseSearch = ({ onSearch }) => {
         placeholder="Search by target, body part, or exercise"
         className="border border-gray-300 rounded-lg py-2 px-4 w-full"
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={handleSearchChange} // Trigger search as the user types
       />
-      <button
-        onClick={handleSearch}
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg ml-2"
-      >
-        Search
-      </button>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import ExerciseSearch from './ExerciseSearch';
 const Exercise = () => {
     const [exercises, setExercises] = useState([]);
     const [numCards, setNumCards] = useState(20);
+    const [searchQuery, setSearchQuery] = useState(''); // State for the search query
     const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
@@ -35,19 +36,23 @@ const Exercise = () => {
   };
 
   const handleSearch = (query) => {
+    setSearchQuery(query); // Update the search query state
+  };
+
+  // Filter exercises based on the search query
+  useEffect(() => {
     const filteredResults = exercises.filter((exercise) =>
-      exercise.target.toLowerCase().includes(query.toLowerCase()) ||
-      exercise.bodyPart.toLowerCase().includes(query.toLowerCase()) ||
-      exercise.name.toLowerCase().includes(query.toLowerCase())
+      exercise.target.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      exercise.bodyPart.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      exercise.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setSearchResults(filteredResults);
-  };
+  }, [exercises, searchQuery]);
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-semibold mb-4">Exercise List</h1>
       
-      {/* Add the ExerciseSearch component */}
       <ExerciseSearch onSearch={handleSearch} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
